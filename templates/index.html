@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loan Management System</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="container">
+        <h1>Loan Management</h1>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="container">
+        <h1>Loan Management System</h1>
+        <p>
+          Apply for a loan, calculate EMI, and submit your application in one
+          place.
+        </p>
+      </div>
+    </section>
+
+    <main class="container">
+      <section class="form-box">
+        <h2>Apply for a Loan</h2>
+        <form action="{{ url_for('apply') }}" method="post">
+          <div class="input-group">
+            <label for="name">Full Name</label>
+            <input id="name" name="name" type="text" required />
+          </div>
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+          <div class="input-group">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" required />
+          </div>
+          <div class="input-group">
+            <label for="amount">Loan Amount</label>
+            <input id="amount" name="amount" type="number" min="1" required />
+          </div>
+          <button class="btn" type="submit">Submit Application</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+  </body>
+</html>
