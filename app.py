@@ -1,11 +1,18 @@
-from flask import Flask, render_template, request
+import os
 import sqlite3
+import tempfile
+from flask import Flask, render_template, request
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
+
+if os.getenv("VERCEL"):
+    DB_PATH = os.path.join(tempfile.gettempdir(), "database.db")
+else:
+    DB_PATH = "database.db"
 
 # CREATE DATABASE
 def init_db():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
     c.execute('''
@@ -31,20 +38,19 @@ def home():
 # FORM SUBMIT
 @app.route('/apply', methods=['POST'])
 def apply():
-
     name = request.form['name']
-    email=request.form['email']
+    email = request.form['email']
     phone = request.form['phone']
     amount = request.form['amount']
 
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
     c.execute('''
         INSERT INTO applications
-        (name,email, phone, amount)
+        (name, email, phone, amount)
         VALUES (?, ?, ?, ?)
-    ''', (name,email, phone, amount))
+    ''', (name, email, phone, amount))
 
     conn.commit()
     conn.close()
